@@ -9,24 +9,26 @@ BKnave = Symbol("B is a Knave")
 CKnight = Symbol("C is a Knight")
 CKnave = Symbol("C is a Knave")
 
-# Puzzle 0
-# A says "I am both a knight and a knave."
-# TODO: How to make it return knave if the statement is false
-knowledge0 = And( # Ah it will return only when all the statements are true or Turned Not
-    Or(And(AKnave, Not(AKnight)), And(AKnight, Not(AKnave))) # Or knight and not knave or knave and not knight, seems logic, only two options
-
-   
+knowledge_general = And(
+   And(Or(And(AKnave, Not(AKnight)), And(AKnight, Not(AKnave))), Or(And(BKnave, Not(BKnight)), And(BKnight, Not(BKnave)), Or(And(CKnave, Not(CKnight)), And(CKnight, Not(CKnave)))))
     
 )
 
-print(knowledge0.formula())
+# Puzzle 0
+# A says "I am both a knight and a knave."
+knowledge0 = And( # Somehow need to return true for knave when it turns out to be false
+   Or(AKnave, And(AKnave, AKnight))
+  
+)
+# knowledge0.add(knowledge_general)
+
 
 
 # Puzzle 1
 # A says "We are both knaves."
 # B says nothing.
 knowledge1 = And(
-    # TODO
+   
 )
 
 # Puzzle 2
@@ -65,6 +67,7 @@ def main():
             for symbol in symbols:
                 if model_check(knowledge, symbol):
                     print(f"    {symbol}")
+                
 
 
 if __name__ == "__main__":
