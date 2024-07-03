@@ -53,9 +53,15 @@ knowledge2.add(knowledge_general)
 # B says "C is a knave."
 # C says "A is a knight."
 knowledge3 = And(
-    
-)
+    # THis one will be tricky, A says the true, B says the true C lies, Need to somehow describe the B saying what A is saying, maybe biconditional in biconditional?
+    Biconditional(AKnight, Or(AKnight,AKnave)),
+    Biconditional(AKnave, Not(Or(AKnave, AKnight))),
+    Biconditional(BKnight, And(Biconditional(AKnight, Or(AKnight,AKnave)), CKnave)),
+    Biconditional(AKnave, Not(And(Biconditional(AKnight, Or(AKnight, AKnave)), Not(CKnave)))),
+    Biconditional(CKnight, AKnight), Biconditional(CKnave, Not(AKnight))
 
+)
+knowledge3.add(knowledge_general)
 
 def main():
 
