@@ -10,32 +10,46 @@ CKnight = Symbol("C is a Knight")
 CKnave = Symbol("C is a Knave")
 
 knowledge_general = And(
-   And(Or(And(AKnave, Not(AKnight)), And(AKnight, Not(AKnave))), Or(And(BKnave, Not(BKnight)), And(BKnight, Not(BKnave)), Or(And(CKnave, Not(CKnight)), And(CKnight, Not(CKnave)))))
-    
+    Biconditional(AKnave, Not(AKnight)),
+    Biconditional(BKnave, Not(BKnight)),
+    Biconditional(CKnave, Not(CKnight))
 )
 
 # Puzzle 0
 # A says "I am both a knight and a knave."
 knowledge0 = And( # Somehow need to return true for knave when it turns out to be false
-   Or(AKnave, And(AKnave, AKnight))
-  
+    Biconditional(AKnight, And(AKnight, AKnave)),
+    Biconditional(AKnave, Not(And(AKnave, AKnight)))
+   
+
 )
-# knowledge0.add(knowledge_general)
+knowledge0.add(knowledge_general)
 
 
 
 # Puzzle 1
 # A says "We are both knaves."
 # B says nothing.
-knowledge1 = And(
-   
+knowledge1 = And( 
+    # If we would set Akna = T, Bkna = T then first one does not entail, if we set Akna = T, Bkni = T then first one entails, and proves these two, second statement will not trigger because if Akni = T and Akna = T
+    # Akna can`t also be Akni so will not entail
+    Biconditional(AKnave, Not(And(AKnave, BKnave))),
+    Biconditional(AKnight, And(AKnave, BKnave))
 )
-
+knowledge1.add(knowledge_general)
 # Puzzle 2
 # A says "We are the same kind."
 # B says "We are of different kinds."
 knowledge2 = And(
-    # TODO
+    #true <=> true
+    Biconditional(AKnight, And(AKnight, BKnight)), # This can be true >>>>>>>>>>>>>>>>>>>>>>>\
+    # Biconditional(AKnight, And(AKnave, BKnave)), # Contraditction                             \
+    Biconditional(AKnave, Not(And(AKnave, BKnave))), # Not contradiction                       \
+    # Biconditional(AKnave, Not(And(AKnight, BKnight))), # Contradiction                    /  >>>> If akni = T then second statement says Bknight = T and that creates contraditciton
+    # Biconditional(BKnight, And(AKnight, BKnave)), # Contradtiction                           /
+    Biconditional(BKnight, And(AKnave, BKnight)), # Could be true>>>>>>>>>>>>>>>>>>>>>>>>>>>/
+    Biconditional(BKnave, Not(And(AKnave, BKnight))), # Not contradiction
+    # Biconditional(BKnave, Not(And(AKnight, BKnave)))  # Contradiction
 )
 
 # Puzzle 3

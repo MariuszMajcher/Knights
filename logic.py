@@ -236,7 +236,7 @@ def model_check(knowledge, query):
             
             # If knowledge base is true in model, then query must also be true
             if knowledge.evaluate(model):
-                print(model)
+                #print(model)
                 return query.evaluate(model)
             return True
         else:
