@@ -41,24 +41,19 @@ knowledge1.add(knowledge_general)
 # A says "We are the same kind."
 # B says "We are of different kinds."
 knowledge2 = And(
-    #true <=> true
-    Biconditional(AKnight, And(AKnight, BKnight)), # This can be true >>>>>>>>>>>>>>>>>>>>>>>\
-    # Biconditional(AKnight, And(AKnave, BKnave)), # Contraditction                             \
-    Biconditional(AKnave, Not(And(AKnave, BKnave))), # Not contradiction                       \
-    # Biconditional(AKnave, Not(And(AKnight, BKnight))), # Contradiction                    /  >>>> If akni = T then second statement says Bknight = T and that creates contraditciton
-    # Biconditional(BKnight, And(AKnight, BKnave)), # Contradtiction                           /
-    Biconditional(BKnight, And(AKnave, BKnight)), # Could be true>>>>>>>>>>>>>>>>>>>>>>>>>>>/
-    Biconditional(BKnave, Not(And(AKnave, BKnight))), # Not contradiction
-    # Biconditional(BKnave, Not(And(AKnight, BKnave)))  # Contradiction
+    Biconditional(AKnight, Or(And(AKnight, BKnight), And(AKnave, BKnave))),
+    Biconditional(AKnave, Not(Or(And(AKnight, BKnight), And(AKnave, BKnave)))),
+    Biconditional(BKnave, Not(Or(And(AKnight, BKnave), And(AKnave, BKnight)))),
+    Biconditional(BKnight, Or(And(AKnight, BKnave), And(AKnave, BKnight))),
 )
-
+knowledge2.add(knowledge_general)
 # Puzzle 3
 # A says either "I am a knight." or "I am a knave.", but you don't know which.
 # B says "A said 'I am a knave'."
 # B says "C is a knave."
 # C says "A is a knight."
 knowledge3 = And(
-    # TODO
+    
 )
 
 
